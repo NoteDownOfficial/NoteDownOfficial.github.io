@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description"
+    content="Download the latest version of NoteDown, the notes and to-do app that syncs with the server.">
+  <title>Download NoteDown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --desk: #e7edf5;
+      --paper: #fdfdfb;
+      --ink: #14203a;
+      --muted: #5b6985;
+      --rule: #bccbe2;
+      --margin: #d9483b;
+      --hl: #fbe86b;
+      --shadow: 0 2px 0 rgba(20, 32, 58, .05), 0 28px 50px -26px rgba(20, 32, 58, .4);
+      --font: "Bricolage Grotesque", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --desk: #0e1524;
+        --paper: #162036;
+        --ink: #e9eef9;
+        --muted: #9aa8c4;
+        --rule: #2b3b5c;
+        --margin: #f0695a;
+        --hl: rgba(251, 232, 107, .32);
+        --shadow: 0 28px 50px -26px rgba(0, 0, 0, .75)
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --desk: #0e1524;
+      --paper: #162036;
+      --ink: #e9eef9;
+      --muted: #9aa8c4;
+      --rule: #2b3b5c;
+      --margin: #f0695a;
+      --hl: rgba(251, 232, 107, .32);
+      --shadow: 0 28px 50px -26px rgba(0, 0, 0, .75)
+    }
+
+    html {
+      height: 100%;
+      scroll-padding-top: env(safe-area-inset-top, 0px);
+      -webkit-text-size-adjust: 100%
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--desk);
+      color: var(--ink);
+      font: 400 1rem/1.55 var(--font);
+      -webkit-font-smoothing: antialiased
+    }
+
+    .site,
+    main,
+    footer {
+      width: min(1100px, 100% - 3rem);
+      margin-inline: auto
+    }
+
+    .site {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: 28px 0 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      gap: 48px;
+      align-content: center;
+      padding: 48px 0 56px
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: clamp(2.6rem, 7vw, 4.4rem);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -.035em;
+      text-wrap: balance
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 30rem;
+      font-size: 1.15rem;
+      color: var(--muted)
+    }
+
+    .sheet {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 480px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 5px;
+      box-shadow: var(--shadow)
+    }
+
+    .sheet::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      left: 68px;
+      width: 2px;
+      background: var(--margin);
+      opacity: .55;
+      pointer-events: none
+    }
+
+    .top {
+      padding: 24px 24px 18px 86px;
+      border-bottom: 3px double var(--margin)
+    }
+
+    .top h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    .top p {
+      margin: 2px 0 0;
+      font-size: .92rem;
+      color: var(--muted)
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 68px 1fr auto;
+      align-items: center;
+      min-height: 88px;
+      padding-right: 20px;
+      border-bottom: 1px solid var(--rule);
+      color: inherit;
+      text-decoration: none;
+      transition: background .2s
+    }
+
+    .row:hover,
+    .row:focus-visible {
+      background: color-mix(in srgb, var(--rule) 24%, transparent)
+    }
+
+    .row:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: -3px
+    }
+
+    .box {
+      justify-self: center;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border: 2px solid var(--ink);
+      border-radius: 7px;
+      transition: background .2s
+    }
+
+    .box svg {
+      width: 18px;
+      height: 18px
+    }
+
+    .box path {
+      fill: none;
+      stroke: var(--paper);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 22;
+      stroke-dashoffset: 22;
+      transition: stroke-dashoffset .28s .06s
+    }
+
+    .row:hover .box,
+    .row:focus-visible .box {
+      background: var(--ink)
+    }
+
+    .row:hover .box path,
+    .row:focus-visible .box path {
+      stroke-dashoffset: 0
+    }
+
+    .txt {
+      display: grid;
+      padding: 14px 12px 14px 18px
+    }
+
+    .txt b {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.15
+    }
+
+    .txt small {
+      font-size: .88rem;
+      line-height: 1.35;
+      color: var(--muted)
+    }
+
+    mark {
+      color: inherit;
+      background: linear-gradient(transparent 52%, var(--hl) 52% 90%, transparent 90%);
+      padding: 0 .16em;
+      margin-left: -.16em
+    }
+
+    .go {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .95rem;
+      font-weight: 600
+    }
+
+    .ic {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform .2s
+    }
+
+    .row:hover .ic,
+    .row:focus-visible .ic {
+      transform: translateY(2px)
+    }
+
+    .tip {
+      margin: 0;
+      padding: 22px 24px 22px 86px;
+      font-size: .92rem;
+      color: var(--muted)
+    }
+
+    footer {
+      padding: 0 0 28px;
+      font-size: .85rem;
+      color: var(--muted)
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      transform: translate(-50%, 16px);
+      opacity: 0;
+      pointer-events: none;
+      padding: .65rem 1.1rem;
+      border-radius: 99px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: .9rem;
+      transition: opacity .25s, transform .25s
+    }
+
+    .toast.on {
+      opacity: 1;
+      transform: translate(-50%, 0)
+    }
+
+    @media (min-width:900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+        gap: 80px;
+        align-items: center
+      }
+    }
+
+    @media (max-width:440px) {
+      .go span {
+        display: none
+      }
+
+      .row {
+        grid-template-columns: 60px 1fr auto
+      }
+
+      .sheet::before {
+        left: 60px
+      }
+
+      .top,
+      .tip {
+        padding-left: 78px
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      * {
+        transition: none !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="d" viewBox="0 0 24 24">
+      <path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" />
+    </symbol>
+  </svg>
+
+  <div class="site">
+    <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+      <rect width="28" height="28" rx="8" fill="currentColor" />
+      <path d="M8 14.5l4 4 8-9" fill="none" style="stroke:var(--desk)" stroke-width="2.6" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+    NoteDown
+  </div>
+
+  <main>
+    <div>
+      <h1>Notes and to-dos, kept in sync.</h1>
+      <p class="lede">Add notes, build to-do lists, and let NoteDown sync them with the server, so everything is up to
+        date wherever you open the app.</p>
+    </div>
+
+    <section class="sheet" aria-labelledby="t">
+      <div class="top">
+        <h2 id="t">Download NoteDown</h2>
+        <p>Latest version for Android. Choose the build for your phone.</p>
+      </div>
+
+      <!-- Replace each href="#" with the link to its APK file. -->
+      <a class="row"
+        href="https://github.com/NoteDownOfficial/NoteDownOfficial.github.io/releases/download/v1.2/app-armeabi-v7a-release.apk"
+        download aria-label="Download NoteDown v7a">
+        <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg></span>
+        <span class="txt"><b>v7a</b><small>armeabi-v7a, for older 32-bit phones</small></span>
+        <span class="go"><span>Download</span><svg class="ic" aria-hidden="true">
+            <use href="#d" />
+          </svg></span>
+      </a>
+
+      <a class="row"
+        href="https://github.com/NoteDownOfficial/NoteDownOfficial.github.io/releases/download/v1.2/app-arm64-v8a-release.apk"
+        download aria-label="Download NoteDown v8a">
+        <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg></span>
+        <span class="txt"><b><mark>v8a</mark></b><small>arm64-v8a, for most phones</small></span>
+        <span class="go"><span>Download</span><svg class="ic" aria-hidden="true">
+            <use href="#d" />
+          </svg></span>
+      </a>
+
+      <a class="row"
+        href="https://github.com/NoteDownOfficial/NoteDownOfficial.github.io/releases/download/v1.2/app-x86_64-release.apk"
+        download aria-label="Download NoteDown x86_64">
+        <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg></span>
+        <span class="txt"><b>x86_64</b><small>x86_64, for emulators and Intel devices</small></span>
+        <span class="go"><span>Download</span><svg class="ic" aria-hidden="true">
+            <use href="#d" />
+          </svg></span>
+      </a>
+
+      <p class="tip">Not sure? The highlighted build fits most phones.</p>
+    </section>
+  </main>
+
+  <footer>© 2026 NoteDown</footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- <script>
+    const toast = document.querySelector('.toast');
+    document.querySelectorAll('.row').forEach(a => a.addEventListener('click', e => {
+      if (a.getAttribute('href') === '#') {
+        e.preventDefault();
+        toast.textContent = 'No file is linked to this button yet.';
+        toast.classList.add('on');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.remove('on'), 2400);
+      }
+    }));
+  </script> -->
+</body>
+
+</html>
